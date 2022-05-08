@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _7_Refactoring.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace _7_Refactoring
             throw new NotImplementedException();
         }
 
-        internal void SaveCompany(int newNumber)
+        internal void SaveCompany(Company company)
         {
             throw new NotImplementedException();
         }
