@@ -10,13 +10,14 @@ namespace _7_Refactoring.Factories
     {
         public static User Create(object[] data)
         {
-            Precondition.Requires(data.Length >= 3);
+            Precondition.Requires(data.Length >= 4);
 
             int userId = (int)data[0];
             string email = (string)data[1];
             UserType type = (UserType)data[2];
+            bool isEmailConfirmed = (bool)data[3];
 
-            return new User(userId, email, type);
+            return new User(userId, email, type, isEmailConfirmed);
         }
     }
 }

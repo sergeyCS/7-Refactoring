@@ -15,10 +15,13 @@ namespace _7_Refactoring.Controllers
         private readonly Database _database = new Database();
         private readonly MessageBus _messageBus = new MessageBus();
 
-        public void ChangeEmail(int userId, string newEmail)
+        public string ChangeEmail(int userId, string newEmail)
         {
             object[] data = _database.GetUserById(userId);
             var user = UserFactory.Create(data);
+
+            if (user.CanChangeEmail() != null)
+                return "Can't change a confirmed email";
 
             object[] companyData = _database.GetCompany();
             var company = CompanyFactory.Create(companyData);
@@ -28,6 +31,8 @@ namespace _7_Refactoring.Controllers
             _database.SaveCompany(company);
             _database.SaveUser(user);
             _messageBus.SendEmailChangedMessage(userId, newEmail);
+
+            return "OK";
         }
     }
 }
