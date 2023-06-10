@@ -13,10 +13,19 @@ namespace _7_Refactoring.Domain
 
     public class User
     {
+        private List<EmailChangedEvent> _emailChangedEvents = new List<EmailChangedEvent>();
+
         public int UserId { get; private set; }
         public string Email { get; private set; }
         public UserType Type { get; private set; }
-        public bool IsEmailConfirmed { get; private set; }
+        public bool IsEmailConfirmed{ get; private set; }
+        public IEnumerable<EmailChangedEvent> EmailChangedEvents
+        {
+            get
+            {
+                foreach (var item in _emailChangedEvents) yield return item;
+            }
+        }
 
         public User(int userId, string email, UserType type, bool isEmailConfirmed)
         {
@@ -53,6 +62,7 @@ namespace _7_Refactoring.Domain
 
             Email = newEmail;
             Type = newType;
+            _emailChangedEvents.Add(new EmailChangedEvent(UserId, Email));
         }
     }
 }

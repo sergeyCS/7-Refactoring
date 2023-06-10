@@ -30,7 +30,10 @@ namespace _7_Refactoring.Controllers
 
             _database.SaveCompany(company);
             _database.SaveUser(user);
-            _messageBus.SendEmailChangedMessage(userId, newEmail);
+            foreach (var ev in user.EmailChangedEvents)
+            {
+                _messageBus.SendEmailChangedMessage(ev.UserId, ev.NewEmail);
+            }
 
             return "OK";
         }

@@ -1,6 +1,7 @@
 using _7_Refactoring.Domain;
 using System;
 using Xunit;
+using FluentAssertions;
 
 namespace Test
 {
@@ -12,11 +13,13 @@ namespace Test
             var company = new Company("mycorp.com", 1);
             var sut = new User(1, "user@gmail.com", UserType.Customer, false);
 
-            sut.ChangeEmail("new@mycorp.com", company);
+            const string newEmail = "new@mycorp.com";
+            sut.ChangeEmail(newEmail, company);
 
-            Assert.Equal(2, company.NumberOfEmployees);
-            Assert.Equal("new@mycorp.com", sut.Email);
-            Assert.Equal(UserType.Employee, sut.Type);
+            company.NumberOfEmployees.Should().Be(2);
+            sut.Email.Should().Be(newEmail);
+            sut.Type.Should().Be(UserType.Employee);
+            sut.EmailChangedEvents.Should().Equal(new EmailChangedEvent(1, newEmail));
         }
 
         [InlineData("new@gmail.com", 0, UserType.Customer)]
